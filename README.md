@@ -8,4 +8,8 @@ npx skills add sspross/skills
 
 ## Skills
 
-- **[restate-repo](skills/restate-repo/SKILL.md)**: reissue the repository so it states only what is currently true, the way a restatement reissues a published record to correct it. `/restate-repo` runs three passes over the whole repository (documentation and ADRs, dead code and spent feature flags, then comments and docstrings); `/restate-repo comments` runs the comments pass alone. User-invoked only.
+Each entry is the skill's own `description`, copied verbatim.
+
+- **[land](skills/land/SKILL.md)**: Take approved tickets to one reviewable pull request. `/land` dispatches agents across the ticket frontier, a PR per ticket onto an integration branch, then one spec PR for review; `/land pr <number>` dispatches agents to address review comments. Orchestrates only, never writes the code itself.
+
+- **[restate-repo](skills/restate-repo/SKILL.md)**: Reissue the repository so it states only what is currently true. Deletes stale documentation, dead code and comments that restate the code, and corrects claims the implementation contradicts. `/restate-repo` runs all three passes; `/restate-repo comments` runs the comments pass alone.
