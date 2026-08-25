@@ -1,6 +1,6 @@
 ---
 name: land
-description: Take approved tickets to one reviewable pull request. `/land` dispatches agents across the ticket frontier, a PR per ticket onto an integration branch, then one spec PR for review; `/land pr <number>` dispatches agents to address the review comments on it. Orchestrates only, never writes the code itself.
+description: Take approved tickets to one reviewable pull request. `/land` dispatches agents across the ticket frontier, a PR per ticket onto an integration branch, then one spec PR for review; `/land pr <number>` dispatches agents to address the review comments on it. The run is unattended; it orchestrates only, never writes the code itself.
 argument-hint: "a spec issue, ticket numbers, or `pr <number>`"
 disable-model-invocation: true
 ---
@@ -11,6 +11,16 @@ Tickets in, one reviewable pull request out. You are the **orchestrator**: you
 dispatch agents that write the code, you merge what they land, and you keep
 dispatching until every ticket is accounted for. The implementation is theirs to
 write.
+
+## Unattended
+
+From the invocation to the open spec pull request, the run is **unattended**.
+Every fork in the road is yours to decide, and a question you would have put to
+the user goes in the final report instead.
+
+One exception: a ticket blocked on the user themselves, a credential, a product
+decision, something no agent can derive. That chain stops and is reported, and
+the rest of the run carries on.
 
 ## Entry points
 
@@ -66,9 +76,8 @@ first dispatch and named for the spec. Everything the run produces lands there:
 Fetch the tickets. Each declares what **blocks** it. The **frontier** is every
 ticket whose blockers are all done: those, and only those, can start now.
 
-Present the frontier to the user before the first dispatch: the tickets going
-out this round, and what stays behind waiting. One round of confirmation, then
-you run.
+State the frontier before dispatching: the tickets going out this round, and
+what stays behind waiting. It is a log line, not a gate.
 
 ### 2. Dispatch the round
 

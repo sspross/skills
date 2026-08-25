@@ -62,10 +62,23 @@ spec/<name> ──► main          one PR, yours to review and yours to merge
 Your review surface is that last pull request and nothing else. `/land pr
 <number>` runs on it alone.
 
+## Unattended
+
+Once `/land` is invoked you are out of it until the spec pull request is open.
+It decides the forks itself, and a question it would have put to you goes into
+the final report instead. There is no confirmation step between rounds.
+
+The exception is a ticket blocked on you personally: a credential, a product
+decision, something no agent can derive. That chain stops and is reported, and
+the rest of the run carries on.
+
 ## Before you run it
 
 - The repo needs `docs/agents/issue-tracker.md`, which says where tickets live
   and how they are addressed. `/setup-matt-pocock-skills` writes it.
 - Start `/land` in a fresh context. It reads the tracker, not your conversation,
   so a `/clear` straight after `/to-tickets` costs you nothing.
+- It wants a machine it may work on unsupervised: parallel worktrees, branches
+  pushed, ticket pull requests merged. Run it where that is fine, a VM or a
+  dev box, not on a checkout someone else is using.
 - It is user-invoked only. Nothing fires it but you typing `/land`.
