@@ -1,12 +1,7 @@
-# Branch: repo
+# Passes 1 and 2: documentation and code
 
-Two passes, one commit each: documentation, then code. When a code deletion in
-Pass 2 falsifies a documentation claim Pass 1 kept, correct that document in
-the Pass 2 commit.
-
-Resolve every conflict toward the implementation: keep what it supports, delete
-the rest, hedge nothing. When neither side can be verified, keep both and flag
-the ambiguity.
+Two passes, one commit each. Read this alongside `SKILL.md`, which holds the
+guardrails, the baseline, flagging, the verification gates and the summary.
 
 ## Pass 1: documentation
 
@@ -71,14 +66,5 @@ entitlements, operational controls, compatibility support.
 
 ### Comments
 
-Apply [`COMMENTS.md`](COMMENTS.md) to the code this pass touches.
-
-## Verification
-
-The gate: every symbol, file, feature, flag and term you deleted greps to zero
-live references across the repository, and the list of what you grepped goes in
-the summary. Confirm that generated, registered, plugin-loaded and
-convention-discovered components still resolve.
-
-Then re-run the baseline. A new failure means a deletion was wrong: restore
-what you deleted, rather than adjusting behavior to fit.
+Comments and docstrings are Pass 3, over the whole repository, not a side
+effect of this one. See [`COMMENTS.md`](COMMENTS.md).

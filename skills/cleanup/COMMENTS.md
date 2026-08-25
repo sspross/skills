@@ -1,8 +1,9 @@
-# Branch: comments
+# Pass 3: comments
 
-Comments and docstrings only. Every executable token, identifier, literal,
-string and formatting byte leaves this pass unchanged. A rename that "makes a
-comment unnecessary" is refactoring and belongs to a different task.
+Comments and docstrings across the whole repository. Every executable token,
+identifier, literal, string and formatting byte leaves this pass unchanged. A
+rename that "makes a comment unnecessary" is refactoring and belongs to a
+different task.
 
 ## Machine-read lines stay
 
@@ -59,13 +60,4 @@ A kept comment is condensed to its minimal present-tense form. The
 What counts as published follows the implementation, not what a docstring
 claims about itself.
 
-## Verification
-
-The gate: strip all comments and docstrings from the base branch and from the
-cleanup branch (a language-appropriate tool, or an AST comparison), and confirm
-the two stripped trees are **identical**. A difference means code moved:
-revert it.
-
-Then re-run the baseline, doc builds and docstring-enforcing linters included.
-A new failure traced to a deleted machine-read line is fixed by restoring that
-line.
+The gate for this pass is stripped-source identity, in `SKILL.md`.
