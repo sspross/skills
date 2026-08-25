@@ -1,6 +1,6 @@
 ---
 name: restate-repo
-description: Reissue the repository so it states only what is currently true: delete stale documentation, dead code and comments that restate the code, and correct claims the implementation contradicts. `/restate-repo` runs all three passes; `/restate-repo comments` runs the comments pass alone.
+description: Reissue the repository so it states only what is currently true. Deletes stale documentation, dead code and comments that restate the code, and corrects claims the implementation contradicts. `/restate-repo` runs all three passes; `/restate-repo comments` runs the comments pass alone.
 disable-model-invocation: true
 ---
 
