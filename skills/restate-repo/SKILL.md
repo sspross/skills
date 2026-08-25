@@ -1,20 +1,22 @@
 ---
-name: cleanup
-description: Delete what the repository no longer needs, so the working tree describes only its current state. `/cleanup` runs the whole repository (documentation, dead code, comments); `/cleanup comments` runs the comments pass alone.
+name: restate-repo
+description: Reissue the repository so it states only what is currently true: delete stale documentation, dead code and comments that restate the code, and correct claims the implementation contradicts. `/restate-repo` runs all three passes; `/restate-repo comments` runs the comments pass alone.
 disable-model-invocation: true
 ---
 
-# cleanup
+# restate-repo
 
-Git history, closed PRs and closed issues are the **archive**. The working tree
-describes what the repository is *now*. This skill deletes the rest.
+A **restatement**: the repository reissued so it states only what is currently
+true, the way a restatement reissues a published record to correct it. Git
+history, closed PRs and closed issues are the **archive**; the working tree
+describes what the repository is *now*, and this restatement deletes the rest.
 
 Deletion is the tool. A line is either justified or gone; rewriting is reserved
 for condensing a line that earns its place.
 
 ## Passes
 
-`/cleanup` runs all three, in order, one commit each:
+`/restate-repo` runs all three, in order, one commit each:
 
 1. **Documentation** — docs, READMEs, ADRs, anything the repo says about
    itself. [`DOCS-AND-CODE.md`](DOCS-AND-CODE.md)
@@ -22,7 +24,7 @@ for condensing a line that earns its place.
 3. **Comments** — every comment and docstring in the repository.
    [`COMMENTS.md`](COMMENTS.md)
 
-`/cleanup comments` starts at Pass 3 and stops there. With code out of scope
+`/restate-repo comments` starts at Pass 3 and stops there. With code out of scope
 the diff is small, provable and quick to review; reach for it when a full pass
 is more change than you want to take on at once.
 
@@ -53,7 +55,7 @@ the ambiguity.
 
 Before the first edit, run the repository's tests, linters, type checks and doc
 builds. Record the results. **Only failures new against this baseline belong to
-the cleanup**; pre-existing failures stay untouched.
+the restatement**; pre-existing failures stay untouched.
 
 ## Flag
 
