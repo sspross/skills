@@ -1,6 +1,6 @@
 ---
 name: land
-description: Take approved tickets to one reviewable pull request. `/land` dispatches agents across the ticket frontier, a PR per ticket onto an integration branch, then one spec PR for review; `/land pr <number>` dispatches agents to address review comments. Orchestrates only, never writes the code itself.
+description: Take approved tickets to one reviewable pull request. `/land` dispatches agents across the ticket frontier, a PR per ticket onto an integration branch, then one spec PR for review; `/land pr <number>` dispatches agents to address the review comments on it. Orchestrates only, never writes the code itself.
 argument-hint: "a spec issue, ticket numbers, or `pr <number>`"
 disable-model-invocation: true
 ---
@@ -16,8 +16,8 @@ write.
 
 - **`/land [spec or ticket numbers]`**: take the tickets from `/to-tickets` to
   one pull request. See *Landing tickets*.
-- **`/land pr <number> [<number>…]`**: address the review comments on open pull
-  requests. See *Landing review comments*.
+- **`/land pr <number>`**: address the review comments on the spec pull
+  request. See *Landing review comments*.
 
 Both run the same dispatch rules. With no argument, ask which tickets.
 
@@ -37,7 +37,7 @@ first dispatch and named for the spec. Everything the run produces lands there:
 - you merge a ticket's pull request once it is green, because that is what
   releases the tickets it blocked
 - the spec's own pull request goes from the integration branch to the default
-  branch at the end, and **that one is the user's to merge**
+  branch at the end: the run's one review surface, and **the user's to merge**
 
 ## Dispatch rules
 
@@ -114,24 +114,24 @@ report.
 
 ### 1. Read the comments
 
-Fetch the pull request's review comments, unresolved threads included. Group
-them by what they ask for, not by who wrote them: several comments about one
-mistake are one piece of work.
+Fetch the spec pull request's review comments, unresolved threads included.
+Group them by what they ask for, not by who wrote them: several comments about
+one mistake are one piece of work.
 
 Comments that ask a question rather than a change go to the user, who answers
 them.
 
 ### 2. Dispatch
 
-One agent per pull request, carrying every grouped change on that branch:
-guardrails green, pushed to the same branch, and a reply on each thread it
-addressed saying what changed. Several pull requests in one round get a worktree
-each.
+One agent carries every grouped change: guardrails green, pushed to the
+integration branch, and a reply on each thread it addressed saying what changed.
+A review too large for one agent goes in rounds, one agent on the branch at a
+time.
 
 ### 3. Report
 
-Per pull request: what was addressed, what was left and why, and which threads
-now await the user. Then sweep as above for anything that merged.
+What was addressed, what was left and why, and which threads now await the
+user. Once the user has merged the spec pull request, sweep as in step 5.
 
 ## When your context fills
 
