@@ -57,6 +57,9 @@ first dispatch and named for the spec. Everything the run produces lands there:
 - **Each agent runs `/implement`.** That skill owns how the work is done. Your
   dispatch prompt names the ticket, the branch and the integration branch to
   target, and leaves `/implement` unrestated.
+- **The self-review is the gate.** `/implement` ends on `/code-review`; the
+  agent fixes what that review finds before it opens its pull request. It is the
+  only reading a ticket pull request gets before you merge it.
 - **Worktree isolation is mandatory for a parallel round.** Pass
   `isolation: "worktree"` on every agent you dispatch alongside another: two
   agents in one checkout corrupt each other's work.

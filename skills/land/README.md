@@ -59,6 +59,10 @@ main
 spec/<name> ──► main          one PR, yours to review and yours to merge
 ```
 
+Nobody reads a ticket pull request before it goes in, so the agent's own
+`/code-review` at the end of `/implement` is its gate: `land` has it fix what
+the review finds before the pull request opens.
+
 Your review surface is that last pull request and nothing else. `/land pr
 <number>` runs on it alone.
 
