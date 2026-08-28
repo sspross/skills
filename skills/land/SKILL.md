@@ -57,6 +57,9 @@ first dispatch and named for the spec. Everything the run produces lands there:
 - **Each agent runs `/implement`.** That skill owns how the work is done. Your
   dispatch prompt names the ticket, the branch and the integration branch to
   target, and leaves `/implement` unrestated.
+- **Tests are integration-first.** A new test drives a whole flow through real
+  seams; implementation details stay untested. This line goes in every dispatch
+  prompt; `/test-diet` prunes what slips through anyway.
 - **The self-review is the gate.** `/implement` ends on `/code-review`; the
   agent fixes what that review finds before it opens its pull request. It is the
   only reading a ticket pull request gets before you merge it.
