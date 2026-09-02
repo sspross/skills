@@ -66,9 +66,10 @@ first dispatch and named for the spec. Everything the run produces lands there:
 - **Worktree isolation is mandatory for a parallel round.** Pass
   `isolation: "worktree"` on every agent you dispatch alongside another: two
   agents in one checkout corrupt each other's work.
-- **Workers run on Opus** (`model: "opus"`), and the hardest tickets on Fable
-  (`model: "fable"`): a wide refactor, or a ticket several others are blocked
-  by.
+- **You pick each agent's model.** A capable general model carries an ordinary
+  ticket; the strongest model available carries the hardest ones: a wide
+  refactor, or a ticket several others are blocked by. This skill names no
+  provider and no model; use what the environment offers.
 - **The project's guardrails are the bar.** Its `CLAUDE.md` or `AGENTS.md` names
   them (lint, format, test, precommit). Every agent runs them green before
   opening its pull request; a red guardrail is a blocked ticket, not a PR.
