@@ -8,6 +8,10 @@ Reduce the suite's runtime while the core stays tested. Integration-first: a tes
 
 Work on a fresh branch. The suite is green after every commit, and runtime is remeasured after every stage.
 
+## Delegation
+
+The session running this skill is the orchestrator: it owns the stages, the commits and the PR. Work with a clear rule and a bounded scope goes to subagents, one per test file or directory: classifying tests against the value criteria, checking a deletion's coverage diff, timing one suite, running the e2e tests a journey touches. The orchestrator decides what goes out, whether a subagent edits or only reports, and which model each subagent runs on. A cheaper model carries rule-checking and measurement; a call that needs judgment (a borderline test, what a consolidated test asserts, what a journey covers) stays on a stronger model or with the orchestrator. This skill names no provider and no model; use what the environment offers.
+
 ## 1. Discover
 
 Map the landscape: every test entry point (make targets, package scripts, CI), the test directories per kind (unit, integration, e2e), and the coverage tooling. Coverage missing: set it up config-level (`coverage.py`, `vitest --coverage`). Setup fails: declare **judgment-only mode** for that suite, meaning every deletion candidate goes to the borderline checklist and nothing is auto-deleted.

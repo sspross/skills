@@ -13,3 +13,5 @@ Each entry is the skill's own `description`, copied verbatim.
 - **[land](skills/land/SKILL.md)**: Take approved tickets to one reviewable pull request. `/land` dispatches agents across the ticket frontier, a PR per ticket onto an integration branch, then one spec PR for review; `/land pr <number>` dispatches agents to address the review comments on it. The run is unattended; it orchestrates only, never writes the code itself.
 
 - **[restate-repo](skills/restate-repo/SKILL.md)**: Reissue the repository so it states only what is currently true. Deletes stale documentation, dead code and comments that restate the code, and corrects claims the implementation contradicts. `/restate-repo` runs all three passes; `/restate-repo comments` runs the comments pass alone.
+
+- **[test-diet](skills/test-diet/SKILL.md)**: Put a project's test suite on a diet - profile it, prune low-value tests, consolidate unit tests into integration tests, trim e2e to golden journeys. One run, one PR.

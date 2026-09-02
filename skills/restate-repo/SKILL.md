@@ -31,6 +31,19 @@ is more change than you want to take on at once.
 When a Pass 2 deletion falsifies a documentation claim Pass 1 kept, correct
 that document in the Pass 2 commit.
 
+## Delegation
+
+The session running this skill is the orchestrator: it owns the passes, the
+commits, the gates and the summary. Work with a clear rule and a bounded scope
+goes to subagents, one per directory or document: verifying a document's claims
+against the implementation, applying the keep test to a directory's comments,
+grepping deleted symbols for live references. The orchestrator decides what
+goes out, whether a subagent edits or only reports, and which model each
+subagent runs on. A cheaper model carries rule-checking and searches; a call
+that needs judgment (a flag, whether an ADR is still in effect, a deletion that
+falsifies a kept claim) stays on a stronger model or with the orchestrator. This
+skill names no provider and no model; use what the environment offers.
+
 ## Guardrails
 
 1. **Behavior stays identical.** The scope is deletion and factual correction.
