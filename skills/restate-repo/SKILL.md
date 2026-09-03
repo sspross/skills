@@ -41,8 +41,9 @@ grepping deleted symbols for live references. The orchestrator decides what
 goes out, whether a subagent edits or only reports, and which model each
 subagent runs on. A cheaper model carries rule-checking and searches; a call
 that needs judgment (a flag, whether an ADR is still in effect, a deletion that
-falsifies a kept claim) stays on a stronger model or with the orchestrator. This
-skill names no provider and no model; use what the environment offers.
+falsifies a kept claim, every comment in Pass 3) stays on a stronger model or
+with the orchestrator. This skill names no provider and no model; use what the
+environment offers.
 
 ## Guardrails
 
@@ -52,8 +53,9 @@ skill names no provider and no model; use what the environment offers.
    what runs: code, configuration, tests, schemas and interfaces, build and CI
    definitions, deployment manifests, runtime wiring. Another document
    corroborates a finding; it never establishes one.
-3. **Uncertainty keeps the line.** Investigate against the implementation
-   first. Still unresolved: leave it in place and **flag** it.
+3. **Uncertainty keeps the claim.** A documentation or code claim you cannot
+   settle against the implementation stays in place, **flagged**. Comments
+   take the opposite default; `COMMENTS.md` states it.
 4. **Cleaning is separate from refactoring.** Renames, redesigns,
    reorganisation, new abstractions and bug fixes belong to a different task.
 5. **The project's own instructions win.** A `CLAUDE.md`, `AGENTS.md` or
@@ -81,9 +83,8 @@ existing marker convention), and listed in the summary. Existing
 
 A pass surfaces problems it does not fix: bugs, unsafe behavior, bad names,
 tangled logic, API redesigns, architectural trouble, migration consolidation.
-Leave the implementation as it stands and report the location. A comment that
-is only necessary because the code is unclear stays, and the code becomes a
-follow-up.
+Leave the implementation as it stands and report the location. Unclear code
+becomes a follow-up; its comments take the same test as every other.
 
 ## Commits
 
