@@ -54,15 +54,17 @@ first dispatch and named for the spec. Everything the run produces lands there:
 - **One agent, one ticket.** An agent's whole job is one ticket, start to
   finish: branch, implement, guardrails green, one pull request closing the
   issue (`Closes #<n>`).
-- **Each agent runs `/implement`.** That skill owns how the work is done. Your
-  dispatch prompt names the ticket, the branch and the integration branch to
-  target, and leaves `/implement` unrestated.
+- **The dispatch prompt carries the method.** It names the ticket, the branch
+  and the integration branch to target, and has the agent:
+  - build test-first with `/tdd`, at the seams the ticket agrees on
+  - typecheck and run single test files as it goes, the full suite once at the
+    end
+  - review its work with `/code-review` and fix what the review finds
 - **Tests are integration-first.** A new test drives a whole flow through real
   seams; implementation details stay untested. This line goes in every dispatch
   prompt; `/test-diet` prunes what slips through anyway.
-- **The self-review is the gate.** `/implement` ends on `/code-review`; the
-  agent fixes what that review finds before it opens its pull request. It is the
-  only reading a ticket pull request gets before you merge it.
+- **The self-review is the gate.** `/code-review` is the only reading a ticket
+  pull request gets before you merge it.
 - **Worktree isolation is mandatory for a parallel round.** Pass
   `isolation: "worktree"` on every agent you dispatch alongside another: two
   agents in one checkout corrupt each other's work.

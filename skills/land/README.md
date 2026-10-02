@@ -18,7 +18,7 @@ A feature travels one arc, and each step is a skill:
 4. **Land**: `/land <spec>`. This skill.
 5. **Iterate**: `/land pr <number>` on the review comments, until you merge.
 
-Steps 1 to 3, plus `/implement`, come from Matt Pocock's engineering skills;
+Steps 1 to 3 come from Matt Pocock's engineering skills;
 `/setup-matt-pocock-skills` configures a repo for them. `land` is steps 4 and 5.
 
 ## The gap it fills
@@ -26,7 +26,7 @@ Steps 1 to 3, plus `/implement`, come from Matt Pocock's engineering skills;
 After `/to-tickets` you have a dependency graph of issues, every one of them
 ready for an agent. What you do not have is anything that runs it.
 
-`/implement` does one ticket. It does not know about the other twelve, which of
+One agent does one ticket. It does not know about the other twelve, which of
 them are unblocked, or what to do when one goes red. Driving that by hand means:
 read the tickets, work out what can start now, open a terminal per ticket, wait,
 merge, work out what just became unblocked, repeat. That bookkeeping is the
@@ -36,7 +36,7 @@ reason a finished ticket set sits unstarted.
 
 - reads the **frontier**, every ticket whose blockers are all done
 - dispatches one agent per frontier ticket at once, each in its own worktree,
-  each running `/implement`
+  each implementing test-first and ending on `/code-review`
 - merges what comes back green, recomputes the frontier, dispatches the next
   round
 - reports a failed ticket's blocked chain and carries the other chains forward
@@ -60,7 +60,7 @@ spec/<name> ──► main          one PR, yours to review and yours to merge
 ```
 
 Nobody reads a ticket pull request before it goes in, so the agent's own
-`/code-review` at the end of `/implement` is its gate: `land` has it fix what
+`/code-review` at the end of its work is its gate: `land` has it fix what
 the review finds before the pull request opens.
 
 Your review surface is that last pull request and nothing else. `/land pr
