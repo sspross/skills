@@ -37,6 +37,8 @@ def request(method, path, body=None):
         except ValueError:
             detail = ""
         sys.exit(f"MiniFax server answered {error.code}: {detail or error.reason}")
+    except urllib.error.URLError as error:
+        sys.exit(f"MiniFax server unreachable at {server_url()}: {error.reason}")
 
 
 def list_devices():
