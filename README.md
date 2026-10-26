@@ -10,6 +10,8 @@ npx skills add sspross/skills
 
 Each entry is the skill's own `description`, copied verbatim.
 
+- **[bring](skills/bring/SKILL.md)**: Read and edit the user's Bring! shopping lists (getbring.com). Use when the user wants to see, add to, check off, or remove items from their shopping list ("Einkaufsliste").
+
 - **[land](skills/land/SKILL.md)**: Take approved tickets to one reviewable pull request. `/land` dispatches agents across the ticket frontier, a PR per ticket onto an integration branch, then one spec PR for review; `/land pr <number>` dispatches agents to address the review comments on it. The run is unattended; it orchestrates only, never writes the code itself.
 
 - **[minifax](skills/minifax/SKILL.md)**: Send something to a MiniFax, the thermal printer that prints messages on paper. Use when the user wants text, a todo list, or an image printed on their MiniFax or someone else's.
