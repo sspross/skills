@@ -60,6 +60,7 @@ first dispatch and named for the spec. Everything the run produces lands there:
   - typecheck and run single test files as it goes, the full suite once at the
     end
   - review its work with `/code-review` and fix what the review finds
+  - write the pull request body with `/pr`
 - **Tests are integration-first.** A new test drives a whole flow through real
   seams; implementation details stay untested. This line goes in every dispatch
   prompt; `/test-diet` prunes what slips through anyway.
@@ -110,9 +111,10 @@ Repeat until the frontier is empty.
 Run the project's guardrails once on the integration branch as a whole: the
 slices were green apart, and this is the first time they are green together.
 
-Then open one pull request, integration branch into the default branch. Its body
-carries what the spec set out to do, the ticket pull requests that built it, and
-anything reported blocked. This is the pull request the user reviews and merges.
+Then open one pull request, integration branch into the default branch. Write
+its body with `/pr`: it carries what the spec set out to do, the ticket pull
+requests that built it, and anything reported blocked. This is the pull request
+the user reviews and merges.
 
 ### 5. Sweep
 
