@@ -17,13 +17,16 @@ import tempfile
 import tomllib
 from pathlib import Path
 
+from cookiecutter.exceptions import CookiecutterException
 from cookiecutter.main import cookiecutter
+from jinja2 import TemplateError
 
 DEFAULT_TEMPLATE = "https://github.com/sspross/cookiecutter-django.git"
 MARKER = Path(".template.json")
 RENDERED_ROOT = "{{ cookiecutter.project_slug }}"
 GENERATED_MARKER_FILE = "manage.py"
 MAX_CANDIDATES = 30
+LOCKFILES = ("uv.lock", "poetry.lock", "package-lock.json")
 
 
 def main():
@@ -38,13 +41,13 @@ def main():
     _git("clone", "-q", template_url, str(clone))
     head = _rev_parse(clone, "HEAD")
 
-    candidates = []
+    candidates, skipped_candidates = [], []
     if args.base:
         base, base_source = _rev_parse(clone, args.base), "argument"
     elif marker.get("commit"):
         base, base_source = marker["commit"], "marker"
     else:
-        candidates = _rank_baselines(clone, context, out)
+        candidates, skipped_candidates = _rank_baselines(clone, context, out)
         base, base_source = candidates[0]["commit"], "inferred"
 
     _render(clone, base, context, out / "base")
@@ -66,6 +69,7 @@ def main():
         "up_to_date": not patch.read_text(),
         "commits": commits,
         "candidates": candidates[:3],
+        "skipped_candidates": skipped_candidates,
         "context": context,
         "out": str(out),
     }, indent=2))
@@ -91,7 +95,10 @@ def _context_from_project():
 
 
 def _rank_baselines(clone, context, out):
-    """Rank template commits by how closely their render matches the commit that added the project."""
+    """Rank template commits by how closely their render matches the commit that added the project.
+
+    Returns the ranked candidates and the commits skipped because they do not render.
+    """
     added = _git(
         "log", "--diff-filter=A", "--reverse", "--format=%H %aI", "--", GENERATED_MARKER_FILE
     ).splitlines()
@@ -103,20 +110,29 @@ def _rank_baselines(clone, context, out):
     snapshot.mkdir()
     archive = subprocess.run(["git", "archive", generation_commit], check=True, capture_output=True)
     subprocess.run(["tar", "-x", "-C", str(snapshot)], input=archive.stdout, check=True)
+    _remove_lockfiles(snapshot)
 
     commits = _git(
         "-C", str(clone), "log", f"--until={generated_at}", f"-{MAX_CANDIDATES}", "--format=%H"
     ).splitlines()
-    ranked = []
+    ranked, skipped = [], []
     scratch = out / "candidate"
     for commit in commits:
-        _render(clone, commit, context, scratch)
-        ranked.append({"commit": commit, "changed_lines": _changed_lines(scratch, snapshot)})
-        shutil.rmtree(scratch)
+        try:
+            _render(clone, commit, context, scratch)
+            _remove_lockfiles(scratch)
+            ranked.append({"commit": commit, "changed_lines": _changed_lines(scratch, snapshot)})
+        except (CookiecutterException, TemplateError) as error:
+            skipped.append({"commit": commit, "error": f"{type(error).__name__}: {error}"})
+        finally:
+            shutil.rmtree(scratch, ignore_errors=True)
     shutil.rmtree(snapshot)
-    if not ranked:
+    if not commits:
         raise SystemExit(f"No template commit predates the project ({generated_at}).")
-    return sorted(ranked, key=lambda candidate: candidate["changed_lines"])
+    if not ranked:
+        failures = "\n".join(f"{failure['commit']}: {failure['error']}" for failure in skipped)
+        raise SystemExit(f"No candidate template commit renders:\n{failures}")
+    return sorted(ranked, key=lambda candidate: candidate["changed_lines"]), skipped
 
 
 def _render(clone, commit, context, target):
@@ -126,6 +142,12 @@ def _render(clone, commit, context, target):
             str(clone), no_input=True, extra_context=context, output_dir=rendered, accept_hooks=False
         )
         shutil.move(str(next(Path(rendered).iterdir())), target)
+
+
+def _remove_lockfiles(tree):
+    for name in LOCKFILES:
+        for lockfile in tree.rglob(name):
+            lockfile.unlink()
 
 
 def _changed_lines(left, right):

@@ -21,9 +21,9 @@ uv run --script <skill-dir>/scripts/template_diff.py [--base <commit>]
 
 It clones the upstream, renders it at the baseline and at HEAD with the project's values, skips hooks so both renders are deterministic, and prints a JSON report. In the report's `out` directory: `base/`, `head/`, `upstream.patch`, `template/` (the upstream clone) and `new-marker.json`.
 
-The baseline comes from `--base`, else from `.template.json` in the project, else it is inferred: the upstream commit whose render best matches the commit that added `manage.py`. An inferred baseline is a claim to check: `candidates` should show a clear winner. State it in the PR body.
+The baseline comes from `--base`, else from `.template.json` in the project, else it is inferred: the upstream commit whose render best matches the commit that added `manage.py`. An inferred baseline is a claim to check: `candidates` should show a clear winner, with `changed_lines` counted without lockfiles. `skipped_candidates` names the commits that do not render. State the baseline in the PR body.
 
-`up_to_date: true`: report that and stop. The script exiting with "not generated from this template": report that and stop.
+`up_to_date: true`: report that and stop. The script exiting with "not generated from this template" or "No candidate template commit renders": report that and stop.
 
 Done when: the report exists and the baseline is trusted.
 
