@@ -111,10 +111,18 @@ Repeat until the frontier is empty.
 Run the project's guardrails once on the integration branch as a whole: the
 slices were green apart, and this is the first time they are green together.
 
+Then start the project's **test version** on the integration branch and leave
+it running: the user tests every spec pull request there before merging. The
+project's `CLAUDE.md` or `AGENTS.md` names the command. Start it from the main
+checkout: the stack belongs to the folder it was started in, and the sweep
+deletes worktrees.
+
 Then open one pull request, integration branch into the default branch. Write
 its body with `/pr`: it carries what the spec set out to do, the ticket pull
-requests that built it, and anything reported blocked. This is the pull request
-the user reviews and merges.
+requests that built it, and anything reported blocked. It names the test
+version: its URL and login as the start command printed them, the machine it
+runs on when the URL is local (`Test version: http://localhost:8000 (on
+<host>)`), and the branch it runs. This is the pull request the user reviews and merges.
 
 ### 5. Sweep
 
@@ -126,6 +134,8 @@ Leave nothing behind that the run created:
   integration branch
 - delete the integration branch once its pull request is merged; while it is
   open, branch and pull request stay
+- stop the test version once the spec pull request is merged, with the
+  project's stop command
 
 The sweep deletes what is provably merged; anything else stays and goes in the
 report.
@@ -148,10 +158,14 @@ integration branch, and a reply on each thread it addressed saying what changed.
 A review too large for one agent goes in rounds, one agent on the branch at a
 time.
 
+Once the last push is in, pull the integration branch into the main checkout
+and run the test version's start command again there, so the user tests the
+addressed changes.
+
 ### 3. Report
 
-What was addressed, what was left and why, and which threads now await the
-user. Once the user has merged the spec pull request, sweep as in step 5.
+What was addressed, what was left and why, which threads now await the user,
+and the test version's URL. Once the user has merged the spec pull request, sweep as in step 5.
 
 ## When your context fills
 
@@ -167,5 +181,7 @@ Every ticket ends in one of two states, and the run reports which:
 - merged into the integration branch, its issue closed
 - blocked, with the reason and what would unblock it
 
-No ticket is left unaccounted for. The run ends with one open spec pull request
-and a swept repository.
+No ticket is left unaccounted for. The run ends with one open spec pull request,
+its test version running, and a swept repository. The final report repeats the
+test version's URL: the port can change when the stack restarts, and the line in
+the pull request is a snapshot.

@@ -40,6 +40,8 @@ reason a finished ticket set sits unstarted.
 - merges what comes back green, recomputes the frontier, dispatches the next
   round
 - reports a failed ticket's blocked chain and carries the other chains forward
+- starts the project's test version on the integration branch, so you can try
+  the spec before merging
 - opens one pull request at the end, then sweeps the branches, worktrees and
   issues the run created
 
