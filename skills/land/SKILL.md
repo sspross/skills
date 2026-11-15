@@ -167,12 +167,22 @@ addressed changes.
 What was addressed, what was left and why, which threads now await the user,
 and the test version's URL. Once the user has merged the spec pull request, sweep as in step 5.
 
-## When your context fills
+## Run state
 
-Call `/handoff` and name what remains: the tickets not yet dispatched, the pull
-requests open, the chains reported blocked, and the integration branch. The next
-orchestrator starts by reading the tracker, so the handoff carries the state the
-tracker cannot.
+The run's state lives in the tracker, so a run that ends early, when your
+context fills for example, can be continued. After each round, post a comment on
+the spec issue with:
+
+- the tickets not yet dispatched
+- the open pull requests
+- the chains reported blocked
+- the integration branch
+
+A run started from ticket numbers with no spec issue posts the comment on the
+first of those tickets.
+
+A later orchestrator starts by reading the tracker. When it finds such a
+comment, it continues from the latest one, on the integration branch it names.
 
 ## Done
 
