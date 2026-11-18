@@ -42,8 +42,11 @@ reason a finished ticket set sits unstarted.
 - reports a failed ticket's blocked chain and carries the other chains forward
 - starts the project's test version on the integration branch, so you can try
   the spec before merging
-- opens one pull request at the end, then sweeps the branches, worktrees and
-  issues the run created
+- opens one pull request at the end
+- has `/acceptance-test` try the spec on the test version: a fresh tester that
+  knows the tickets and none of the code posts its findings on the pull
+  request, and `land` fixes what failed, for at most two cycles
+- sweeps the branches, worktrees and issues the run created
 
 ## One pull request to review
 
@@ -70,7 +73,8 @@ Your review surface is that last pull request and nothing else. `/land pr
 
 ## Unattended
 
-Once `/land` is invoked you are out of it until the spec pull request is open.
+Once `/land` is invoked you are out of it until the spec pull request is open
+and acceptance-tested.
 It decides the forks itself, and a question it would have put to you goes into
 the final report instead. There is no confirmation step between rounds.
 

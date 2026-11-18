@@ -10,6 +10,8 @@ npx skills add sspross/skills
 
 Each entry is the skill's own `description`, copied verbatim.
 
+- **[acceptance-test](skills/acceptance-test/SKILL.md)**: Acceptance-test a spec pull request by using its running test version from outside. A fresh tester agent gets the spec and its tickets, exercises each promised behaviour in a browser (else HTTP or CLI), and posts its findings as comments on the pull request. Use when the user wants a spec PR or feature tested, or when another skill needs an acceptance test.
+
 - **[bring](skills/bring/SKILL.md)**: Read and edit the user's Bring! shopping lists (getbring.com). Use when the user wants to see, add to, check off, or remove items from their shopping list ("Einkaufsliste").
 
 - **[land](skills/land/SKILL.md)**: Take approved tickets to one reviewable pull request. `/land` dispatches agents across the ticket frontier, a PR per ticket onto an integration branch, then one spec PR for review; `/land pr <number>` dispatches agents to address the review comments on it. The run is unattended; it orchestrates only, never writes the code itself.

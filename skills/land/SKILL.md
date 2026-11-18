@@ -14,7 +14,7 @@ write.
 
 ## Unattended
 
-From the invocation to the open spec pull request, the run is **unattended**.
+From the invocation to the final report, the run is **unattended**.
 Every fork in the road is yours to decide, and a question you would have put to
 the user goes in the final report instead.
 
@@ -124,7 +124,23 @@ version: its URL and login as the start command printed them, the machine it
 runs on when the URL is local (`Test version: http://localhost:8000 (on
 <host>)`), and the branch it runs. This is the pull request the user reviews and merges.
 
-### 5. Sweep
+### 5. Acceptance-test the spec
+
+Run `/acceptance-test <spec pull request>`. Its tester uses the test version
+from outside and posts its findings as comments on the spec pull request. A
+project that names no test version skips this step; say so in the report.
+
+The **failed** findings are yours to act on at once: dispatch one agent for
+them as in *Landing review comments*, step 2. That is one **fix cycle**: fixes
+pushed, test version restarted, then `/acceptance-test` again with a fresh
+tester on the whole spec, because a fix can break what passed before.
+
+Stop after two fix cycles, or sooner when nothing failed. Findings that still
+fail stay open on the pull request and go in the report. **Unclear** and
+**outside spec** findings are the user's to decide: leave them open and report
+them.
+
+### 6. Sweep
 
 Leave nothing behind that the run created:
 
@@ -149,7 +165,8 @@ Group them by what they ask for, not by who wrote them: several comments about
 one mistake are one piece of work.
 
 Comments that ask a question rather than a change go to the user, who answers
-them.
+them. A comment starting `**Acceptance test:` is a tester's finding, not the
+user's request: act on one only where the user's own comment asks for it.
 
 ### 2. Dispatch
 
@@ -162,10 +179,13 @@ Once the last push is in, pull the integration branch into the main checkout
 and run the test version's start command again there, so the user tests the
 addressed changes.
 
+Then acceptance-test the spec again, as in *Landing tickets*, step 5.
+
 ### 3. Report
 
-What was addressed, what was left and why, which threads now await the user,
-and the test version's URL. Once the user has merged the spec pull request, sweep as in step 5.
+What was addressed, what was left and why, which threads and findings now await
+the user, and the test version's URL. Once the user has merged the spec pull
+request, sweep as in step 6.
 
 ## Run state
 
@@ -192,6 +212,7 @@ Every ticket ends in one of two states, and the run reports which:
 - blocked, with the reason and what would unblock it
 
 No ticket is left unaccounted for. The run ends with one open spec pull request,
-its test version running, and a swept repository. The final report repeats the
+acceptance-tested, its test version running, and a swept repository. The final
+report lists the findings left open, by state. The final report repeats the
 test version's URL: the port can change when the stack restarts, and the line in
 the pull request is a snapshot.
